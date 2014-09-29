@@ -13,19 +13,18 @@ using namespace std;
 
 namespace Feat
 {
+	const double EPS = 2.2204e-16;
 	struct SBlob
 	{
 		Point position;
 		double value;
 		double sigma;
 	};
-	const double EPS = 2.2204e-16;
-	Mat getHOGKernel(Size& ksize, double sigma);
-	
 	inline bool compareBlob(const SBlob& lhs, const SBlob& rhs)
 	{
 		return lhs.value > rhs.value;
 	}
+	Mat getHOGKernel(Size& ksize, double sigma);
 	void ExtBlobFeat(Mat& image);
 }
 

@@ -1,6 +1,6 @@
 #include "imgFeat.h"
 
-void Feat::ExtBlobFeat(Mat& imgSrc)
+void Feat::ExtBlobFeat(Mat& imgSrc, vector<SBlob> blobs)
 {
 	double dSigmaStart = 2;
 	double dSigmaEnd = 15;
@@ -19,9 +19,9 @@ void Feat::ExtBlobFeat(Mat& imgSrc)
 	}
 	int iSigmaNb = ivecSigmaArray.size();
 
-	vector<Mat> matVecLOG(iSigmaNb, Mat(image.size(), CV_64F));
+	vector<Mat> matVecLOG;
 	
-	for (size_t i = 0; i!=matVecLOG.size(); i++)
+	for (size_t i = 0; i != iSigmaNb; i++)
 	{
 		double iSigma = ivecSigmaArray[i]; 
 
@@ -29,12 +29,13 @@ void Feat::ExtBlobFeat(Mat& imgSrc)
 		
 		Size kSize(6 * iSigma + 1, 6 * iSigma + 1);
 		Mat HOGKernel = getHOGKernel(kSize, iSigma);
+		Mat imgLog;
 		
-		filter2D(image, matVecLOG[i], CV_64F, HOGKernel);
-		matVecLOG[i] = matVecLOG[i] * iSigma *iSigma;
-	}
-	imwrite("logImage.png", matVecLOG[1]);
+		filter2D(image, imgLog, -1, HOGKernel); // why imgLog must be an empty mat ?
+		imgLog = imgLog * iSigma *iSigma;
 
+		matVecLOG.push_back(imgLog);
+	}
 
 	vector<SBlob> allBlobs;
 	for (size_t k = 1; k != matVecLOG.size() - 1 ;k++)
@@ -120,28 +121,16 @@ void Feat::ExtBlobFeat(Mat& imgSrc)
 		}
 	}
 
-	vector<SBlob> newBlobs;
+
 	for (size_t i = 0; i != allBlobs.size(); i++)
 	{
 		if (delFlags[i])
 		{
-			newBlobs.push_back(allBlobs[i]);
+			blobs.push_back(allBlobs[i]);
 		}
 	}
 
-	sort(newBlobs.begin(), newBlobs.end(), compareBlob);
-
-	cout << "numbers of bolbs is :" << newBlobs.size() << endl;
-	
-	
-	for (size_t i = 0; i != newBlobs.size(); i++)
-	{
-		circle(imgSrc, newBlobs[i].position, 1.414*newBlobs[i].sigma, Scalar(255));
-	}
-
-	namedWindow("blob");
-	imshow("blob", imgSrc);
-	waitKey();
+	sort(blobs.begin(), blobs.end(), compareBlob);
 	
 }
 
