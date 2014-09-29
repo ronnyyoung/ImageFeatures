@@ -3,7 +3,7 @@ Image Features
 
 A class for extracting Image Features.
 
-tow Dirs:
+## Directory List:
 
 - source : the source file.
-- image : the image may used in the project.
+- image : image may used in the project.
