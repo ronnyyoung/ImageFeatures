@@ -183,5 +183,4 @@ Mat Feat::getHOGKernel(Size& ksize, double sigma)
 	kernel -= (sumKernel/(ksize.width  * ksize.height));	
 
 	return kernel;
-	
 }
