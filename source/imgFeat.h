@@ -26,6 +26,7 @@ namespace Feat
 	}
 	Mat getHOGKernel(Size& ksize, double sigma);
 	void ExtBlobFeat(Mat& image);
+	void getCannyEdge(const& Mat& imgSrc, double lowThresh = -1, double highThresh = -1, double sigma = 1);
 }
 
 
