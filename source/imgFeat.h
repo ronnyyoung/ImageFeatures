@@ -11,7 +11,7 @@
 using namespace cv;
 using namespace std;
 
-namespace Feat
+namespace feat
 {
 	const double EPS = 2.2204e-16;
 	struct SBlob
@@ -20,13 +20,17 @@ namespace Feat
 		double value;
 		double sigma;
 	};
-	inline bool compareBlob(const SBlob& lhs, const SBlob& rhs)
-	{
-		return lhs.value > rhs.value;
-	}
+	static bool compareBlob(const SBlob& lhs, const SBlob& rhs);
 	Mat getHOGKernel(Size& ksize, double sigma);
-	void ExtBlobFeat(Mat& image);
-	void getCannyEdge(const& Mat& imgSrc, double lowThresh = -1, double highThresh = -1, double sigma = 1);
+	void extBlobFeat(Mat& imgSrc, vector<SBlob>& blobs);
+
+
+	// edge detection
+	enum sobelDirection{SOBEL_HORZ, SOBEL_VERT, SOBEL_BOTH};
+	double getSobelEdge(const Mat& imgSrc, Mat& imgDst, double thresh = -1, int direction = SOBEL_BOTH);
+	static double getCannyThresh(const Mat& inputArray, double percentage);
+	void getCannyEdge(const Mat& imgSrc, Mat& imgDst, double lowThresh = -1, double highThresh = -1, double sigma = 1);
+	
 }
 
 
