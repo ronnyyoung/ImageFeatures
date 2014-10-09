@@ -30,7 +30,11 @@ namespace feat
 	double getSobelEdge(const Mat& imgSrc, Mat& imgDst, double thresh = -1, int direction = SOBEL_BOTH);
 	static double getCannyThresh(const Mat& inputArray, double percentage);
 	void getCannyEdge(const Mat& imgSrc, Mat& imgDst, double lowThresh = -1, double highThresh = -1, double sigma = 1);
-	
+
+
+	void detectHarrisCorners(const Mat& imgSrc, Mat& imgDst, double alpha);
+	void drawCornerOnImage(Mat& image, const Mat&binary);
+	void detectHarrisLaplace(const Mat& imgSrc, Mat& imgDst);
 }
 
 

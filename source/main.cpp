@@ -3,10 +3,12 @@
 int main(int argc, char** argv)
 {
 	Mat image = imread(argv[1]);
-	Mat edge;
-	feat::getCannyEdge(image, edge);
-	namedWindow("edge");
-	imshow("edge", edge);
+	Mat cornerMap;
+	feat::detectHarrisLaplace(image ,cornerMap);
+	feat::drawCornerOnImage(image, cornerMap);
+	
+	namedWindow("corners");
+	imshow("corners", image);
 	waitKey();
 	return 0;
 }
